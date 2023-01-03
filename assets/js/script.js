@@ -15,6 +15,7 @@ var specialStore;
 
 // user input and storing of those imputs
 function passwordQuestions() {
+  reset();
 
   pwLength = prompt('Please choose a password 8 to 128 characters in length.');
 
@@ -38,13 +39,37 @@ function passwordQuestions() {
       upperStore: upperStore, 
       numberStore: numberStore,
       specialStore: specialStore}
-      return check;
+     
     }
-  
+    return check;  //has to be here or errors
 } 
 
 // take user input and makes a string of characters
 function generatePassword() {
+  
+  var check = passwordQuestions();
+
+  if(check.lowerStore) {
+    genPassword = genPassword.concat(lower)
+  }
+  if(check.upperStore) {
+    genPassword = genPassword.concat(upper)
+  }
+  if(check.numberStore) {
+    genPassword = genPassword.concat(number)
+  }
+  if(check.specialStore) {
+    genPassword = genPassword.concat(special)
+  }
+  
+  var password = "";
+
+  for (var i = 0; i < check.pwLength; i++) {
+      var random = genPassword[Math.floor(Math.random() * genPassword.length)];
+      password = password + random;
+  }
+  
+  return password;
 
 }
 // Write password to the #password input
@@ -56,6 +81,14 @@ function writePassword() {
 }
 
 
+function reset() {
+  genPassword = [];
+  pwLength;
+  lowerStore;
+  upperStore;
+  numberStore;
+  specialStore;
+}
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
